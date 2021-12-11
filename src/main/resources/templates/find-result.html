@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Результаты поиска</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <h1>Результаты поиска</h1>
+    <table>
+        <thead>
+            <tr>
+                <td>Фамилия</td>
+                <td>Имя</td>
+                <td>Отчество</td>
+                <td>Возраст</td>
+                <td>Адрес эл. почты</td>
+                <td>Место работы</td>
+                <td>Зарплата</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user: ${foundedUsers}">
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.patronymic}"></td>
+                <td th:text="${user.age}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.organization}"></td>
+                <td th:text="${user.salary}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p th:text="'Время: ' + ${time}"/>
+    <p th:text="'Браузер: ' + ${userAgent}"/>
+    <a href="/find">Вернуться к поиску</a>
+</body>
+</html>
