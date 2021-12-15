@@ -5,28 +5,35 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
 
-    private final static List<User> users = new ArrayList<>();
+    private final static List<User> USERS = new ArrayList<>();
+
     private final File data;
     private final ObjectMapper objectMapper;
+    private final Validator validator;
 
-    public UserService() {
-        data = new File("users.json");
-        objectMapper = new ObjectMapper();
+    public UserService(Validator validator) {
+        this.data = new File("users.json");
+        this.objectMapper = new ObjectMapper();
+        this.validator = validator;
         try {
             if (data.exists()) {
-                // Проблема если файл пуст или неверно
-                users.addAll(objectMapper.readValue(data, new TypeReference<ArrayList<User>>() {}));
+                USERS.addAll(objectMapper.readValue(data, new TypeReference<ArrayList<User>>() {}));
             } else {
                 data.createNewFile();
+                objectMapper.writeValue(data, new ArrayList<User>());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,20 +41,24 @@ public class UserService {
     }
 
     public List<User> getUsers() {
-        return users;
+        return USERS;
     }
 
     public void addUser(User user) {
+        // Вернуть в контроллер
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         try {
-            users.add(user);
-            objectMapper.writeValue(data, users);
+            USERS.add(user);
+            objectMapper.writeValue(data, USERS);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static List<User> findUser(Collection<User> users, User user) {
-        // Можно весто пустой строки валидацию. (только буквы например)
         final boolean isFirstName = !user.getFirstName().equals("");
         final boolean isLastName = !user.getLastName().equals("");
         List<User> foundedUsers = new ArrayList<>();

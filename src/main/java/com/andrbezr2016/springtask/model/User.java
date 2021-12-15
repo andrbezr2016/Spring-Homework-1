@@ -1,13 +1,32 @@
 package com.andrbezr2016.springtask.model;
 
+import javax.validation.constraints.*;
+
 public class User {
 
+    @NotBlank(message = "Поле не заполнено")
+    @Pattern(regexp = "^[a-zA-Zа-яёА-ЯЁ]([?-]|[a-zA-Zа-яёА-ЯЁ])*[a-zA-Zа-яёА-ЯЁ]$", message = "Фамилия может состоять только из букв русского и латинского алфавита")
     private String lastName;
+
+    @NotBlank(message = "Поле не заполнено")
+    @Pattern(regexp = "^[a-zA-Zа-яёА-ЯЁ]([?-]|[a-zA-Zа-яёА-ЯЁ])*[a-zA-Zа-яёА-ЯЁ]$", message = "Имя может состоять только из букв русского и латинского алфавита")
     private String firstName;
+
+    @NotBlank(message = "Поле не заполнено")
+    @Pattern(regexp = "^[a-zA-Zа-яёА-ЯЁ]([?-]|[a-zA-Zа-яёА-ЯЁ])*[a-zA-Zа-яёА-ЯЁ]$", message = "Отчество может состоять только из букв русского и латинского алфавита")
     private String patronymic;
+
+    @Positive(message = "Возраст должен быть положительным")
     private int age;
+
+    @NotBlank(message = "Поле не заполнено")
+    @Email(message = "Неверный адрес эл. почты")
     private String email;
+
+    @NotBlank(message = "Поле не заполнено")
     private String organization;
+
+    @Positive(message = "Зарплата должна быть положительной")
     private double salary;
 
     public String getLastName() {

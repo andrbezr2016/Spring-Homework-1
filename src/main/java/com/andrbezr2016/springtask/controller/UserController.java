@@ -5,6 +5,7 @@ import com.andrbezr2016.springtask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,9 +36,11 @@ public class UserController {
     }
 
     @PostMapping("/data")
-    public String dataSubmit(@ModelAttribute User user) {
-        // Вывести что добавлен пользователь или что не так.
-        // Проверка что данные в файле корректны.
+    public String dataSubmit(@ModelAttribute User user, BindingResult bindingResult) {
+        // Ошибки с вводом
+        if (bindingResult.hasErrors()) {
+            System.out.println("Errors");
+        }
         userService.addUser(user);
         return "redirect:/data";
     }
