@@ -7,13 +7,28 @@
 <body>
 <h1>Данные пользователя</h1>
     <form action="#" th:action="@{/data}" th:object="${user}" method="post">
+
         <p>Фамилия: <input type="text" th:field="*{lastName}"/></p>
+        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+
         <p>Имя: <input type="text" th:field="*{firstName}"/></p>
+        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+
         <p>Отчество: <input type="text" th:field="*{patronymic}"/></p>
+        <p th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></p>
+
         <p>Возраст: <input type="text" th:field="*{age}"/></p>
+        <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
+
         <p>Адрес эл. почты: <input type="text" th:field="*{email}"/></p>
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
         <p>Место работы: <input type="text" th:field="*{organization}"/></p>
+        <p th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}"></p>
+
         <p>Зарплата: <input type="text" th:field="*{salary}"/></p>
+        <p th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></p>
+
         <p><input type="submit" value="Отправить"/> <input type="reset" value="Сбросить"/></p>
     </form>
 </body>

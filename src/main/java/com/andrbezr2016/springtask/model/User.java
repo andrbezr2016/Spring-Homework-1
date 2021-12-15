@@ -5,15 +5,15 @@ import javax.validation.constraints.*;
 public class User {
 
     @NotBlank(message = "Поле не заполнено")
-    @Pattern(regexp = "^[a-zA-Zа-яёА-ЯЁ]([?-]|[a-zA-Zа-яёА-ЯЁ])*[a-zA-Zа-яёА-ЯЁ]$", message = "Фамилия может состоять только из букв русского и латинского алфавита")
+    @Pattern(regexp = "^([a-zA-Z]*)|([а-яёА-ЯЁ]*)$", message = "Фамилия может состоять только из букв русского, либо латинского алфавита")
     private String lastName;
 
     @NotBlank(message = "Поле не заполнено")
-    @Pattern(regexp = "^[a-zA-Zа-яёА-ЯЁ]([?-]|[a-zA-Zа-яёА-ЯЁ])*[a-zA-Zа-яёА-ЯЁ]$", message = "Имя может состоять только из букв русского и латинского алфавита")
+    @Pattern(regexp = "^([a-zA-Z]*)|([а-яёА-ЯЁ]*)$", message = "Имя может состоять только из букв русского, либо латинского алфавита")
     private String firstName;
 
     @NotBlank(message = "Поле не заполнено")
-    @Pattern(regexp = "^[a-zA-Zа-яёА-ЯЁ]([?-]|[a-zA-Zа-яёА-ЯЁ])*[a-zA-Zа-яёА-ЯЁ]$", message = "Отчество может состоять только из букв русского и латинского алфавита")
+    @Pattern(regexp = "^([a-zA-Z]*)|([а-яёА-ЯЁ]*)$", message = "Отчество может только состоять из букв русского, либо латинского алфавита")
     private String patronymic;
 
     @Positive(message = "Возраст должен быть положительным")
