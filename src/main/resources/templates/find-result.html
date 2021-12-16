@@ -1,37 +1,43 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Результаты поиска</title>
+    <title>Searching results</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-    <h1>Результаты поиска</h1>
+<h1>Searching results</h1>
+<form action="#" th:action="@{/send}" method="get">
     <table>
         <thead>
-            <tr>
-                <td>Фамилия</td>
-                <td>Имя</td>
-                <td>Отчество</td>
-                <td>Возраст</td>
-                <td>Адрес эл. почты</td>
-                <td>Место работы</td>
-                <td>Зарплата</td>
-            </tr>
+        <tr>
+            <td>Last name</td>
+            <td>First name</td>
+            <td>Patronymic</td>
+            <td>Age</td>
+            <td>Email</td>
+            <td>Organization</td>
+            <td>Salary</td>
+            <td></td>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="user: ${foundedUsers}">
-                <td th:text="${user.lastName}"></td>
-                <td th:text="${user.firstName}"></td>
-                <td th:text="${user.patronymic}"></td>
-                <td th:text="${user.age}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.organization}"></td>
-                <td th:text="${user.salary}"></td>
-            </tr>
+        <tr th:each="user: ${foundedUsers}">
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.patronymic}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.organization}"></td>
+            <td th:text="${user.salary}"></td>
+            <td>
+                <input type="submit" th:name="toEmail" th:value="${user.email}" value="Write"/>
+            </td>
+        </tr>
         </tbody>
     </table>
-    <p th:text="'Время: ' + ${time}"/>
-    <p th:text="'Браузер: ' + ${userAgent}"/>
-    <a href="/find">Вернуться к поиску</a>
+</form>
+<p th:text="'Time: ' + ${time}"/>
+<p th:text="'User-Agent: ' + ${userAgent}"/>
+<a href="/find">Back to search</a>
 </body>
 </html>

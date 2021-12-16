@@ -1,15 +1,15 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Поиск пользователя</title>
+    <title>Search user</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<h1>Поиск</h1>
-    <form action="#" th:action="@{/find}" th:object="${user}" method="post">
-        <p>Фамилия: <input type="text" th:field="*{lastName}"/></p>
-        <p>Имя: <input type="text" th:field="*{firstName}"/></p>
-        <p><input type="submit" value="Поиск"/> <input type="reset" value="Сбросить"/></p>
-    </form>
+<h1>Search user</h1>
+<form action="#" th:action="@{/find}" th:object="${user}" method="post">
+    <p>Last name: <input type="text" th:field="*{lastName}"/></p>
+    <p>First name: <input type="text" th:field="*{firstName}"/></p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
 </body>
 </html>

@@ -1,12 +1,15 @@
 package com.andrbezr2016.springtask.controller;
 
+import com.andrbezr2016.springtask.model.Message;
 import com.andrbezr2016.springtask.model.User;
+import com.andrbezr2016.springtask.service.MyEmailService;
 import com.andrbezr2016.springtask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -16,10 +19,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final MyEmailService emailService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, MyEmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/")
@@ -35,11 +40,16 @@ public class UserController {
 
     @PostMapping("/data")
     public String dataSubmit(@ModelAttribute @Valid User user, BindingResult bindingResult) {
-        // @Valid для включения валидации, ошибки будут BindingResult
         if (bindingResult.hasErrors()) {
             return "data";
         }
         userService.addUser(user);
+        return "redirect:/data";
+    }
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file) {
+        userService.fileUpload(file);
         return "redirect:/data";
     }
 
@@ -51,15 +61,25 @@ public class UserController {
 
     @PostMapping("/find")
     public String findSubmit(Model model, @ModelAttribute User user, @RequestHeader(value = "User-Agent") String userAgent) {
-        List<User> users = userService.getUsers();
-        List<User> foundedUsers = userService.findUser(users, user);
+        List<User> foundedUsers = userService.findUser(user);
         if (foundedUsers.isEmpty()) {
-            // Когда ничего не найдено.
-            return "";
+            return "not-found";
         }
         model.addAttribute("foundedUsers", foundedUsers);
         model.addAttribute("time", new Date());
         model.addAttribute("userAgent", userAgent);
         return "find-result";
+    }
+
+    @GetMapping("/send")
+    public String sendForm(Model model, @RequestParam(value = "toEmail") String to) {
+        model.addAttribute("message", new Message(to));
+        return "send";
+    }
+
+    @PostMapping("/send")
+    public String sendSubmit(@ModelAttribute Message message) {
+        emailService.sendMessage(message.getTo(), message.getSubject(), message.getText());
+        return "send";
     }
 }
