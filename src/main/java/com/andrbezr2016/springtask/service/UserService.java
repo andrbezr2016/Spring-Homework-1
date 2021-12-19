@@ -1,22 +1,30 @@
 package com.andrbezr2016.springtask.service;
 
 import com.andrbezr2016.springtask.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
 
-    private final List<User> users = new ArrayList<>();
+    private final List<User> users;
     private final File data;
+    private final Validator validator;
 
-    public UserService() {
+    @Autowired
+    public UserService(Validator validator) {
+        this.users = new ArrayList<>();
         this.data = new File("users.txt");
+        this.validator = validator;
         if (!data.exists()) {
             try {
                 data.createNewFile();
@@ -84,13 +92,27 @@ public class UserService {
             String[] cells;
             while (line != null) {
                 cells = line.split(" ");
+                line = reader.readLine();
+                if (!isFormat(cells)) continue;
                 User user = new User(cells[0], cells[1], cells[2], Integer.parseInt(cells[3]), cells[4], cells[5], Double.parseDouble(cells[6]));
+                Set<ConstraintViolation<User>> violations = validator.validate(user);
+                if (!violations.isEmpty()) continue;
                 users.add(user);
                 addUser(user);
-                line = reader.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static boolean isFormat(String[] strings) {
+        if (strings == null || strings.length != 7) return false;
+        try {
+            Integer.parseInt(strings[3]);
+            Double.parseDouble(strings[6]);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }

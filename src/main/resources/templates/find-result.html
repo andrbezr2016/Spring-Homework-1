@@ -3,6 +3,7 @@
 <head>
     <title>Searching results</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <h1>Searching results</h1>
@@ -38,6 +39,6 @@
 </form>
 <p th:text="'Time: ' + ${time}"/>
 <p th:text="'User-Agent: ' + ${userAgent}"/>
-<a href="/find">Back to search</a>
+<p><a href="/find">Back to search</a></p>
 </body>
 </html>
