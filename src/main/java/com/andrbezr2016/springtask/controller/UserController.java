@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/data")
-    public String dataSubmit(@ModelAttribute @Valid User user, BindingResult bindingResult) {
+    public String dataSubmit(Model model, @ModelAttribute @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "data";
         }

@@ -1,0 +1,5 @@
+Bobrov Andrey Viktorovich 30 andrmail2021@gmail.com HelloWork 50000.0
+Bobrov Victor Ivanovich 60 victorB@mail.com YTT 50000.0
+Popov Andrey Vasilevich 34 popovav@mail.com HelloWork 50000.0
+Ivanov Petr Viktorovich 45 ivanovpv@mail.com YTT 50000.0
+Petrov Andrey Ivanovich 24 petrovai@mail.com NewWork 50000.0
